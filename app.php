@@ -15,7 +15,12 @@ $app->get('/', function (Application $app, Request $request) {
     
     if ($request->get('message')){
         
-        
+        $this->messages = [];
+    if (!$app['session']->get('messages')){
+       $this->messages = [];
+       $this->messages[0] = 'Hello! I will ask you some questions ok?';
+
+    }    
         $data = array(
         'success' => true,
         'message' => 'test'
