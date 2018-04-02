@@ -9,10 +9,14 @@ use Silex\Api\ControllerProviderInterface;
 class MyBotController implements ControllerProviderInterface {
   
   protected $state;
+  protected $name;
+  protected $mail;
+  protected $age;
 
   public function __construct(){
 
     $this->state = 0;
+
   }
 
   public function connect(Application $app) {
@@ -40,7 +44,20 @@ class MyBotController implements ControllerProviderInterface {
 
         $data = array(
           'success' => true,
-          'message' => "What is your name?"
+          'message' => $prov_message
+        );
+
+    return $app->json($data);
+    }
+    else if ($this->state == 1) {
+
+        $prov_message = $app['session']->get('messages');
+        array_push($prov_message,"What is your mail?");
+        $app['session']->set('messages', $prov_message);  
+        
+        $data = array(
+          'success' => true,
+          'message' => $prov_message
         );
 
     return $app->json($data);
